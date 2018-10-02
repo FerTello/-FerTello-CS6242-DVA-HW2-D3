@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>GTmtello3</title>
         <script src="../lib/d3.v3.min.js"></script>
+        <link rel="stylesheet"  href="legends.css">
         <style type="text/css">
         /* nothing */
         .axis path,
@@ -26,15 +27,24 @@
         </style>
     </head>
     <body>
-        <script type="text/javascript">
+      <script type="text/javascript">
 
 d3.csv("movies.csv", function(data) {
 
         			//Width and height
         			var w = 1000;
         			var h = 800;
-        			var padding = 30;
+        			var padding = 60;
 
+/*
+                            var legend = d3.select("body")
+                                    .append("svg")
+                                    .attr("width", 200)
+                                    .attr("heigth", 50)
+                                    .append("text")
+                                    .text("Good Rating")
+                                    ;
+*/
         			//Dynamic, random dataset
         			var dataset = data;					//Add new number to array
 
@@ -59,6 +69,7 @@ d3.csv("movies.csv", function(data) {
         							  .scale(yScaleCanvas1)
         							  .orient("left")
         							  .ticks(10);
+
 //*************PLOT1
         			//Create SVG element
         			var canvas1 = d3.select("body")
@@ -87,13 +98,27 @@ d3.csv("movies.csv", function(data) {
         			canvas1.append("g")
         				.attr("class", "axis")
         				.attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
-        				.call(xAxis);
+        				.call(xAxis)
+                .append("text")
+                .attr("x", w/2)
+                .attr("y", padding/2)
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .text("IMDb Rating");
 
         			//Create Y axis
         			canvas1.append("g")
         				.attr("class", "axis")
         				.attr("transform", "translate(" + padding + ",0)")//position y axis
-        				.call(yAxis);
+        				.call(yAxis)
+                .append("text")
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .attr("y", -padding/2)
+                .attr("x", -h/2)
+                .style("text-anchor", "middle")
+                .attr("transform", "translate(0,0) rotate(-90)")
+                .text("Wins and Noms");
 
               canvas1.append("text")
                 .attr("x", w / 3 )
@@ -102,69 +127,164 @@ d3.csv("movies.csv", function(data) {
 
 
 //*************PLOT2
-var padding = 80;
+var padding = 100;
 
-//Create scale functions
-var xScale = d3.scale.linear()
-           .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
-           .range([padding, w - padding]);
+      //Create scale functions
+      var xScale = d3.scale.linear()
+                 .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
+                 .range([padding, w - padding]);
 
-        			var yScaleCanvas2 = d3.scale.linear()
-        								 .domain([0, 200000000])
-        								 .range([h - padding, padding]);
+              			var yScalecanvas2 = d3.scale.linear()
+              								 .domain([0, 200000000])
+              								 .range([h - padding, padding]);
 
-                         //Define X axis
-                   			var xAxis = d3.svg.axis()
-                   							  .scale(xScale)
-                   							  .orient("bottom")
-                   							  .ticks(10);
-                                  
-            //Define Y axis
-            var yAxis2 = d3.svg.axis()
-                      .scale(yScaleCanvas2)
-                      .orient("left")
-                      .ticks(10);
+                               //Define X axis
+                         			var xAxis = d3.svg.axis()
+                         							  .scale(xScale)
+                         							  .orient("bottom")
+                         							  .ticks(10);
 
-
-//Create SVG element
-var canvas2 = d3.select("body")
-      .append("svg")
-      .attr("width", w)
-      .attr("height", h);
+                  //Define Y axis
+                  var yAxis2 = d3.svg.axis()
+                            .scale(yScalecanvas2)
+                            .orient("left")
+                            .ticks(10);
 
 
-canvas2.selectAll(".point")
-      .data(data)
-      .enter().append("path")
-        .attr("class", "point")
-        .attr("d", d3.svg.symbol().type(function(d){
-            if (d.IsGoodRating == 1){ return "cross"; }
-            else { return "circle"; }
-          }
-        ))
-        .attr("fill", function(d){
-          if (d.IsGoodRating == 1) {
-            return "blue";
-          } else { return "red"; }
-        })
-        .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + yScaleCanvas2(d.Budget) + ")"; });
+      //Create SVG element
+      var canvas2 = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
 
-//Create X axis
-canvas2.append("g")
-  .attr("class", "axis")
-  .attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
-  .call(xAxis);
 
-//Create Y axis
-canvas2.append("g")
-  .attr("class", "axis")
-  .attr("transform", "translate(" + padding + ",0)")//position y axis
-  .call(yAxis2);
+      canvas2.selectAll(".point")
+            .data(data)
+            .enter().append("path")
+              .attr("class", "point")
+              .attr("d", d3.svg.symbol().type(function(d){
+                  if (d.IsGoodRating == 1){ return "cross"; }
+                  else { return "circle"; }
+                }
+              ))
+              .attr("fill", function(d){
+                if (d.IsGoodRating == 1) {
+                  return "blue";
+                } else { return "red"; }
+              })
+              .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + yScalecanvas2(d.Budget) + ")"; });
 
-canvas2.append("text")
-  .attr("x", w / 3 )
-  .attr("y", 20 )
-  .text("Budget vs. IMDb Rating");
+      //Create X axis
+      canvas2.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
+        .call(xAxis)
+        .append("text")
+        .attr("x", w/2)
+        .attr("y", padding/2)
+        .style("fill", "black")
+        .style("font-size", "15px")
+        .text("IMDb Rating");
+
+      //Create Y axis
+      canvas2.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + padding + ",0)")//position y axis
+        .call(yAxis2)
+        .append("text")
+        .style("fill", "black")
+        .style("font-size", "15px")
+        .attr("y", -padding+20)
+        .attr("x", -h/2)
+        .style("text-anchor", "middle")
+        .attr("transform", "translate(0,0) rotate(-90)")
+        .text("Budget");
+
+      canvas2.append("text")
+        .attr("x", w / 2 )
+        .attr("y", 30 )
+        .text("Budget vs. IMDb Rating");
+
+
+
+        //*************PLOT3
+        var padding = 100;
+
+              //Create scale functions
+              var xScale = d3.scale.linear()
+                         .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
+                         .range([padding, w - padding]);
+
+                      			var yScaleCanvas3 = d3.scale.linear()
+                      								 .domain([0, 1000000])
+                      								 .range([h - padding, padding]);
+
+                                       //Define X axis
+                                 			var xAxis = d3.svg.axis()
+                                 							  .scale(xScale)
+                                 							  .orient("bottom")
+                                 							  .ticks(10);
+
+                          //Define Y axis
+                          var yAxis3 = d3.svg.axis()
+                                    .scale(yScaleCanvas3)
+                                    .orient("left")
+                                    .ticks(10);
+
+
+              //Create SVG element
+              var canvas3 = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+
+
+              canvas2.selectAll(".point")
+                    .data(data)
+                    .enter().append("path")
+                      .attr("class", "point")
+                      .attr("d", d3.svg.symbol().type(function(d){
+                          if (d.IsGoodRating == 1){ return "cross"; }
+                          else { return "circle"; }
+                        }
+                      ))
+                      .attr("fill", function(d){
+                        if (d.IsGoodRating == 1) {
+                          return "blue";
+                        } else { return "red"; }
+                      })
+                      .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + yScalecanvas3(d.Budget) + ")"; });
+
+              //Create X axis
+              canvas3.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
+                .call(xAxis)
+                .append("text")
+                .attr("x", w/2)
+                .attr("y", padding/2)
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .text("IMDb Rating");
+
+              //Create Y axis
+              canvas3.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(" + padding + ",0)")//position y axis
+                .call(yAxis2)
+                .append("text")
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .attr("y", -padding+20)
+                .attr("x", -h/2)
+                .style("text-anchor", "middle")
+                .attr("transform", "translate(0,0) rotate(-90)")
+                .text("IMDb Votes");
+
+              canvas3.append("text")
+                .attr("x", w / 2 )
+                .attr("y", 30 )
+                .text("Votes vs. IMDb Rating sized by Wins+Nominations");
 
 
               })
