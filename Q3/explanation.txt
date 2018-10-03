@@ -1,0 +1,12 @@
+Q3.a
+I think .classed("className", true/false) is more versatile to add classes since
+it allows to conditionally add it or remove it changing it from true to false or vice versa
+instead of being always set as with .attr("class", "className").
+
+
+Q3.c
+When points are too crowded in a plot, nonlinear scales are useful:
+-Log scales are better when the range of points is too wide, since it increases its value quickly in a short
+axis distance
+-Square root scale are also useful in crowded plots but this one improves symmetry.
+ It also helps when the points have residuals that increase quickly.
