@@ -2,45 +2,440 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Scatter Plots</title>
+        <title>GTmtello3</title>
         <script src="../lib/d3.v3.min.js"></script>
         <style type="text/css">
         /* nothing */
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+            stroke-width: 2px;
+        }
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+
         </style>
-<body>
-<script>
+    </head>
+    <body>
+      <script type="text/javascript">
 
-console.log("Hello World");
+d3.csv("movies.csv", function(data) {
 
-var imdbRating = [];
-var winsNoms = [];
-var dataset = {};
-var id = {};
+        			//Width and height
+        			var w = 1000;
+        			var h = 800;
+        			var padding = 60;
 
-d3.csv("movies.csv", function(d) {
-  return {
-    imdbRating : +d.imdbRating,
-    budget : +d.Budget,
-    winsNoms : +d.WinsNoms,
-  };
-}, function(error, rows) {
-  var dataset = [];
-  dataset = rows;
-  dataset.forEach(function(entry) {
-  //  console.log(entry.imdbRating, entry.budget, entry.winsNoms);
-  });
+        			//Dynamic, random dataset
+        			var dataset = data;					//Add new number to array
+
+
   console.log(dataset);
+        			//Create scale functions
+        			var xScale = d3.scale.linear()
+        								 .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
+        								 .range([padding, w - padding]);
+
+        			var yScaleCanvas1 = d3.scale.linear()
+        								 .domain([0, 280])
+        								 .range([h - padding, padding]);
+
+        			//Define X axis
+        			var xAxis = d3.svg.axis()
+        							  .scale(xScale)
+        							  .orient("bottom")
+        							  .ticks(10);
+
+        			//Define Y axis
+        			var yAxis = d3.svg.axis()
+        							  .scale(yScaleCanvas1)
+        							  .orient("left")
+        							  .ticks(10);
+
+//*************PLOT1
+        			//Create SVG element
+        			var canvas1 = d3.select("body")
+        						.append("svg")
+        						.attr("width", w)
+        						.attr("height", h);
+
+              canvas1.selectAll(".point")
+                    .data(data)
+                    .enter().append("path")
+                      .attr("class", "point")
+                      .attr("d", d3.svg.symbol().type(function(d){
+                          if (d.IsGoodRating == 1){ return "cross"; }
+                          else { return "circle"; }
+                        }
+                      ))
+                      .attr("fill", function(d){
+                        if (d.IsGoodRating == 1) {
+                          return "blue";
+                        } else { return "red"; }
+                      })
+                      .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + yScaleCanvas1(d.WinsNoms) + ")"; });
+
+        			//Create X axis
+        			canvas1.append("g")
+        				.attr("class", "axis")
+        				.attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
+        				.call(xAxis)
+                .append("text")
+                .attr("x", w/2)
+                .attr("y", padding/2)
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .text("IMDb Rating");
+
+        			//Create Y axis
+        			canvas1.append("g")
+        				.attr("class", "axis")
+        				.attr("transform", "translate(" + padding + ",0)")//position y axis
+        				.call(yAxis)
+                .append("text")
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .attr("y", -padding/2)
+                .attr("x", -h/2)
+                .style("text-anchor", "middle")
+                .attr("transform", "translate(0,0) rotate(-90)")
+                .text("Wins and Noms");
+
+              canvas1.append("text")
+                .attr("x", w / 3 )
+                .attr("y", 20 )
+                .text("Wins+Nominations vs. IMDb Rating");
+
+
+//*************PLOT2
+var padding = 100;
+
+      //Create scale functions
+      var xScale = d3.scale.linear()
+                 .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
+                 .range([padding, w - padding]);
+
+              			var yScalecanvas2 = d3.scale.linear()
+              								 .domain([0, 200000000])
+              								 .range([h - padding, padding]);
+
+                               //Define X axis
+                         			var xAxis = d3.svg.axis()
+                         							  .scale(xScale)
+                         							  .orient("bottom")
+                         							  .ticks(10);
+
+                  //Define Y axis
+                  var yAxis2 = d3.svg.axis()
+                            .scale(yScalecanvas2)
+                            .orient("left")
+                            .ticks(10);
+
+
+      //Create SVG element
+      var canvas2 = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+
+      canvas2.selectAll(".point")
+            .data(data)
+            .enter().append("path")
+              .attr("class", "point")
+              .attr("d", d3.svg.symbol().type(function(d){
+                  if (d.IsGoodRating == 1){ return "cross"; }
+                  else { return "circle"; }
+                }
+              ))
+              .attr("fill", function(d){
+                if (d.IsGoodRating == 1) {
+                  return "blue";
+                } else { return "red"; }
+              })
+              .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + yScalecanvas2(d.Budget) + ")"; });
+
+      //Create X axis
+      canvas2.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
+        .call(xAxis)
+        .append("text")
+        .attr("x", w/2)
+        .attr("y", padding/2)
+        .style("fill", "black")
+        .style("font-size", "15px")
+        .text("IMDb Rating");
+
+      //Create Y axis
+      canvas2.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + padding + ",0)")//position y axis
+        .call(yAxis2)
+        .append("text")
+        .style("fill", "black")
+        .style("font-size", "15px")
+        .attr("y", -padding+20)
+        .attr("x", -h/2)
+        .style("text-anchor", "middle")
+        .attr("transform", "translate(0,0) rotate(-90)")
+        .text("Budget");
+
+      canvas2.append("text")
+        .attr("x", w / 2 )
+        .attr("y", 30 )
+        .text("Budget vs. IMDb Rating");
 
 
 
+//*************PLOT3
+        var padding = 100;
+
+              //Create scale functions
+              var xScale = d3.scale.linear()
+                         .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
+                         .range([padding, w - padding]);
+
+          		var yScalecanvas3 = d3.scale.linear()
+                      	 .domain([0, 1000000])
+        								 .range([h - padding, padding]);
+
+              //Define X axis
+         			var xAxis = d3.svg.axis()
+                         .scale(xScale)
+            						 .orient("bottom")
+                         .ticks(10);
+
+                          //Define Y axis
+              var yAxis2 = d3.svg.axis()
+                         .scale(yScalecanvas3)
+                         .orient("left")
+                         .ticks(10);
+
+              //Create scale functions
+              var symbolSize = d3.scale.linear()
+                      .domain([0, d3.max(dataset, function(d) { return d.WinsNoms; })])
+                      .range([40, 80]);
+
+              //Create SVG element
+              var canvas3 = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
 
 
-});
+              canvas3.selectAll(".point")
+                    .data(data)
+                    .enter().append("path")
+                      //.classed("point", true)
+                      .classed( function(d){
+                                  if (d.IsGoodRating == 1){ return "cross"; }
+                                  else { return "circle"; }
+                                }, true )
+                      .attr("d", d3.svg.symbol().size(function(d){ return symbolSize(d.WinsNoms);}).type(function(d){
+                          if (d.IsGoodRating == 1){ return "cross"; }
+                          else { return "circle"; }
+                        }
+                      ))
+                      .attr("fill", function(d){
+                        if (d.IsGoodRating == 1) {
+                          return "blue";
+                        } else { return "red"; }
+                      })
+                      .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + yScalecanvas3(d.imdbVotes) + ")"; });
 
 
-console.log("first");
+              //Create X axis
+              canvas3.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
+                .call(xAxis)
+                .append("text")
+                .attr("x", w/2)
+                .attr("y", padding/2)
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .text("IMDb Rating");
+
+              //Create Y axis
+              canvas3.append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(" + padding + ",0)")//position y axis
+                .call(yAxis2)
+                .append("text")
+                .style("fill", "black")
+                .style("font-size", "15px")
+                .attr("y", -padding+20)
+                .attr("x", -h/2)
+                .style("text-anchor", "middle")
+                .attr("transform", "translate(0,0) rotate(-90)")
+                .text("IMDb Votes");
+
+              canvas3.append("text")
+                .attr("x", w / 2 )
+                .attr("y", 30 )
+                .text("IMDb Votes vs. IMDb Rating");
+
+//******************PLOT4
+padding = 60;
+//Create scale functions
+var xScale = d3.scale.linear()
+           .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
+           .range([padding, w - padding]);
+
+        			var ySqrtScale = d3.scale.sqrt()
+        								 .domain([0, 300])
+        								 .range([h - padding, padding]);
+
+        			//Define X axis
+        			var xAxis = d3.svg.axis()
+        							  .scale(xScale)
+        							  .orient("bottom")
+        							  .ticks(10);
+
+        			//Define Y axis
+        			var yAxis = d3.svg.axis()
+        							  .scale(ySqrtScale)
+        							  .orient("left")
+        							  .ticks(20);
+
+                        //Create SVG element
+                  			var canvas4 = d3.select("body")
+                  						.append("svg")
+                  						.attr("width", w)
+                  						.attr("height", h);
 
 
-</script>
-</body>
+                        canvas4.selectAll(".point")
+                              .data(data)
+                              .enter().append("path")
+                                .attr("class", "point")
+                                .attr("d", d3.svg.symbol().type(function(d){
+                                    if (d.IsGoodRating == 1){ return "cross"; }
+                                    else { return "circle"; }
+                                  }
+                                ))
+                                .attr("fill", function(d){
+                                  if (d.IsGoodRating == 1) {
+                                    return "blue";
+                                  } else { return "red"; }
+                                })
+                                .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + ySqrtScale(d.WinsNoms) + ")"; });
+
+                                //Create X axis
+                          			canvas4.append("g")
+                          				.attr("class", "axis")
+                          				.attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
+                          				.call(xAxis)
+                                  .append("text")
+                                  .attr("x", w/2)
+                                  .attr("y", padding/2)
+                                  .style("fill", "black")
+                                  .style("font-size", "15px")
+                                  .text("IMDb Rating");
+
+                          			//Create Y axis
+                          			canvas4.append("g")
+                          				.attr("class", "axis")
+                          				.attr("transform", "translate(" + padding + ",0)")//position y axis
+                          				.call(yAxis)
+                                  .append("text")
+                                  .style("fill", "black")
+                                  .style("font-size", "15px")
+                                  .attr("y", -padding/2)
+                                  .attr("x", -h/2)
+                                  .style("text-anchor", "middle")
+                                  .attr("transform", "translate(0,0) rotate(-90)")
+                                  .text("Wins and Noms");
+
+                                canvas4.append("text")
+                                  .attr("x", w / 3 )
+                                  .attr("y", 20 )
+                                  .text("Wins+Nominations (square-root-scaled) vs. IMDb Rating");
+
+
+//******************PLOT5
+padding = 60;
+//Create scale functions
+var xScale = d3.scale.linear()
+           .domain([0, d3.max(dataset, function(d) { return d.imdbRating; })])
+           .range([padding, w - padding]);
+
+var yLogScale5 = d3.scale.log()
+           .domain([1, 300])
+           .range([h - padding, padding]);
+
+//Define X axis
+var xAxis = d3.svg.axis()
+          .scale(xScale)
+          .orient("bottom")
+          .ticks(10);
+
+//Define Y axis
+var yAxis = d3.svg.axis()
+          .scale(yLogScale5)
+          .orient("left")
+          .ticks(20);
+
+//Create SVG element
+var canvas5 = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+            canvas5.selectAll(".point")
+                  .data(data)
+                  .enter().append("path")
+                    .attr("class", "point")
+                    .attr("d", d3.svg.symbol().type(function(d){
+                        if (d.IsGoodRating == 1){ return "cross"; }
+                        else { return "circle"; }
+                      }
+                    ))
+                    .attr("fill", function(d){
+                      if (d.IsGoodRating == 1) {
+                        return "blue";
+                      } else { return "red"; }
+                    })
+                    .attr("transform", function(d) { return "translate(" + xScale(d.imdbRating) + "," + yLogScale5(d.WinsNoms) + ")"; });
+
+                    //Create X axis
+                    canvas5.append("g")
+                      .attr("class", "axis")
+                      .attr("transform", "translate(0," + (h - padding) + ")")//send x axis to the bottom
+                      .call(xAxis)
+                      .append("text")
+                      .attr("x", w/2)
+                      .attr("y", padding/2)
+                      .style("fill", "black")
+                      .style("font-size", "15px")
+                      .text("IMDb Rating");
+
+                    //Create Y axis
+                    canvas5.append("g")
+                      .attr("class", "axis")
+                      .attr("transform", "translate(" + padding + ",0)")//position y axis
+                      .call(yAxis)
+                      .append("text")
+                      .style("fill", "black")
+                      .style("font-size", "15px")
+                      .attr("y", -padding*.75)
+                      .attr("x", -h/2)
+                      .style("text-anchor", "middle")
+                      .attr("transform", "translate(0,0) rotate(-90)")
+                      .text("Wins and Noms");
+
+                    canvas5.append("text")
+                      .attr("x", w / 3 )
+                      .attr("y", 20 )
+                      .text("Wins+Nominations (log-scaled) vs. IMDb Rating");
+
+              })
+          </script>
+        <p></p>
+    </body>
 </html>
