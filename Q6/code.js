@@ -1,11 +1,12 @@
 ( function() {
-  var width = 1000,
+  var width = 1100,
       height = 600;
 
   var svg = d3.select("#graph")
         .append("svg")
         .attr("width", width)
         .attr("height", height);
+
 
   var projection = d3.geo.albersUsa()
         .scale(1280)
@@ -20,6 +21,12 @@
         q.defer(d3.csv, "education.csv")
         q.defer(d3.csv, "education_details.csv")
         q.await(function (err, US, eduPct, details){
+
+          svg.append("text")
+              .attr("x", width / 2 )
+              .attr("y", 50 )
+              .attr("font-size", "20px")
+              .text("EDUCATION STATISTICS");
 
 
         var pctMap = eduPct.map(function(entry){
@@ -128,6 +135,9 @@
 
                       });
 
+            var formatPercent = d3.format("0.0%");
+            var tickLabels = ['0','10%','20%','30%','40%','50%','60%','70%','80%','90%']
+
             // Legend Stuff
             var y = d3.scale.linear()
                 .domain([0, 100])
@@ -136,11 +146,12 @@
             var yAxis = d3.svg.axis()
                 .scale(y)
                 .tickValues(color.domain())
-                .orient("right");
+                .orient("right")
+                .tickFormat(function(d,i){ return tickLabels[i] });
 
             var g = svg.append("g")
                 .attr("class", "key")
-                .attr("transform", "translate(950, 165)")
+                .attr("transform", "translate(1000, 165)")
                 .call(yAxis);
               g.selectAll("rect")
                .data(color.range().map(function(d, i) {
@@ -155,27 +166,6 @@
                    .attr("y", function(d) { return d.y0; })
                    .attr("height", function(d) { return d.y1 - d.y0; })
                    .style("fill", function(d) { return d.z; });
-/*
-            var tip = d3.tip()
-                 .attr('class', 'd3-tip')
-                 .offset([-10, 0])
-                 .html(function(d) {
-                       return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
-                     })
-
-            svg.call(tip);
-*/
-
-                  /*
-                  .enter().append("rect")
-                  .attr("class", "counties")
-                  .attr("x", 50)
-                  .attr("width", 100)
-                  .attr("y", 50)
-                  .attr("height", 100)
-                  .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide)
-*/
 
         });
 
