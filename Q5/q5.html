@@ -22,6 +22,11 @@
     	sumDataset[i] = { city: entry.city, total_population: entry.population_2012 + entry.growth.year_2013 + entry.growth.year_2014 + entry.growth.year_2015 + entry.growth.year_2016 + entry.growth.year_2017}
 
     })
+
+    sumDataset.sort(function(a, b) {
+        return b.total_population - a.total_population;
+      });
+
     var w = 800;
     var h = 450;
     var margin = {
@@ -72,7 +77,19 @@
     			.attr("width", function(d){
     				return x(d.total_population);
     			})
-    			.style("fill", "lila");
+    			.style("fill", "purple")
+          .on("mouseover", function(d){
+            d3.select(this)
+              .style("fill", "red");
+          })
+          .on("mouseout", function(d) {
+            d3.select(this)
+              .transition()
+              .duration(250)
+              .style("fill", function(d) {
+                 return "purple";
+               })
+            });
     	this.selectAll(".bar-label")
     		.data(params.data)
     		.enter()
