@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="../lib/d3.v3.min.js"></script>
+<style>
+	table.tableizer-table {
+		border-collapse: collapse;
+		font-size: 14px;
+		font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+		width: 70%;
+	}
+	.tableizer-table td {
+		padding: 6px;
+		margin: 3px;
+	}
+
+	td.nums {
+		padding: 6px;
+		margin: 3px;
+		text-align: right;
+	}
+
+	td.nums-bold {
+		padding: 6px;
+		margin: 3px;
+		text-align: right;
+		font-weight: bold;
+	}
+
+	.tableizer-table th {
+		padding: 3px;
+		background-color: white;
+		color: black;
+		font-size: 15px;
+		font-weight: normal;
+		text-align: left;
+		vertical-align: bottom;
+		border-bottom: 1px solid black;
+	}
+
+	th.nums {
+		padding: 3px;
+		text-align: right;
+	}
+
+	th.centered {
+		padding: 6px;
+		text-align: center;
+	}
+
+	tr:nth-child(even) {
+		background-color: #eee;
+	}
+
+	tr:nth-child(odd) {
+		background-color: #fff;
+	}
+
+</style>
+<table class="tableizer-table";>
+<thead><tr><th rowspan="2">Name</th><th rowspan="2">Nationality</th><th class="nums" rowspan="2">Rank</th></th><th class="centered" colspan="7">Scores</th></tr>
+<tr><th class="nums">Floor</th><th class="nums">High Bar</th><th class="nums">PBars</th><th class="nums">P. Horse</th><th class="nums">Rings</th><th class="nums">Vault</th><th class="nums">Avg</th></tr></thead><tbody>
+ <tr><td>Xiao Ruoteng</td><td>CHN</td><td class="nums">1</td><td class="nums">14.433</td><td class="nums">14.4</td><td class="nums">14.6</td><td class="nums">14.8</td><td class="nums">13.8</td><td class="nums">14.9</td><td class="nums">14.5</td></tr>
+ <tr><td>Lin Chaopan</td><td>CHN</td><td class="nums">2</td><td class="nums">14.5</td><td class="nums">14.3</td><td class="nums">14.8</td><td class="nums">14.266</td><td class="nums">13.666</td><td class="nums">14.9</td><td class="nums">14.4</td></tr>
+ <tr><td>Kenzo Shirai</td><td>JPN</td><td class="nums">3</td><td class="nums-bold";>15.7</td><td class="nums">13.966</td><td class="nums">14.633</td><td class="nums">13.433</td><td class="nums">13.666</td><td class="nums-bold";>15</td><td class="nums">14.4</td></tr>
+ <tr><td>David Belyavskiy</td><td>RUS</td><td class="nums">4</td><td class="nums">14.1</td><td class="nums">13.2</td><td class="nums-bold";>15.266</td><td class="nums-bold";>14.9</td><td class="nums">14.1</td><td class="nums">14.783</td><td class="nums">14.4</td></tr>
+ <tr><td>Manrique Larduet</td><td>CUB</td><td class="nums">5</td><td class="nums">13.9</td><td class="nums">14.333</td><td class="nums">14.933</td><td class="nums">13.733</td><td class="nums">14.133</td><td class="nums">14.966</td><td class="nums">14.3</td></tr>
+ <tr><td>Nile Wilson</td><td>GBR</td><td class="nums">6</td><td class="nums">14.3</td><td class="nums">14.433</td><td class="nums">14.5</td><td class="nums">13.666</td><td class="nums">14.3</td><td class="nums">14.1</td><td class="nums">14.2</td></tr>
+ <tr><td>Yul Moldauer</td><td>USA</td><td class="nums">7</td><td class="nums">14.566</td><td class="nums">13.333</td><td class="nums">14.533</td><td class="nums">14</td><td class="nums">14.066</td><td class="nums">14.5</td><td class="nums">14.2</td></tr>
+ <tr><td>Oleg Verniaiev</td><td>UKR</td><td class="nums">8</td><td class="nums">13.8</td><td class="nums">12.533</td><td class="nums">14.966</td><td class="nums">13.333</td><td class="nums-bold";>14.566</td><td class="nums">14.833</td><td class="nums">14.0</td></tr>
+ <tr><td>Ahmet Onder</td><td>TUR</td><td class="nums">9</td><td class="nums">14.1</td><td class="nums">13.466</td><td class="nums">14.933</td><td class="nums">12.933</td><td class="nums">13.833</td><td class="nums">14.533</td><td class="nums">14.0</td></tr>
+ <tr><td>Nikita Nagornyy</td><td>RUS</td><td class="nums">10</td><td class="nums">14.5</td><td class="nums">11.066</td><td class="nums">14.541</td><td class="nums">13.866</td><td class="nums">14.466</td><td class="nums">14.8</td><td class="nums">13.9</td></tr>
+ <tr><td>Jo Calvo Moreno</td><td>COL</td><td class="nums">11</td><td class="nums">13.9</td><td class="nums">13.566</td><td class="nums">14.6</td><td class="nums">13.8</td><td class="nums">13.333</td><td class="nums">13.866</td><td class="nums">13.8</td></tr>
+ <tr><td>Pablo Braegger</td><td>SUI</td><td class="nums">12</td><td class="nums">14.233</td><td class="nums-bold";>14.5</td><td class="nums">12.7</td><td class="nums">13.266</td><td class="nums">13.6</td><td class="nums">14.433</td><td class="nums">13.8</td></tr>
+ <tr><td>Artur Davtyan</td><td>ARM</td><td class="nums">13</td><td class="nums">13.3</td><td class="nums">12.733</td><td class="nums">13.766</td><td class="nums">13.4</td><td class="nums">14.2</td><td class="nums">14.9</td><td class="nums">13.7</td></tr>
+ <tr><td>Garam Bae</td><td>KOR</td><td class="nums">14</td><td class="nums">13.0</td><td class="nums">13.4</td><td class="nums">13.6</td><td class="nums">13.533</td><td class="nums">12.866</td><td class="nums">14.133</td><td class="nums">13.4</td></tr>
+ <tr><td>Caio Souza</td><td>BRA</td><td class="nums">15</td><td class="nums">13.9</td><td class="nums">12.133</td><td class="nums">14.266</td><td class="nums">11.566</td><td class="nums">14.166</td><td class="nums">14.5</td><td class="nums">13.4</td></tr>
+ <tr><td>Marios Georgiou</td><td>CYP</td><td class="nums">16</td><td class="nums">12.5</td><td class="nums">13.833</td><td class="nums">14.1</td><td class="nums">12.3</td><td class="nums">13.5</td><td class="nums">14</td><td class="nums">13.4</td></tr>
+ <tr><td>Robert Tvorogal</td><td>LTU</td><td class="nums">17</td><td class="nums">12.9</td><td class="nums">13.333</td><td class="nums">14.1</td><td class="nums">12.866</td><td class="nums">13.133</td><td class="nums">13.9</td><td class="nums">13.4</td></tr>
+ <tr><td>Philipp Herder</td><td>GER</td><td class="nums">18</td><td class="nums">14.133</td><td class="nums">12.6</td><td class="nums">14.1</td><td class="nums">12.833</td><td class="nums">13.5</td><td class="nums">13</td><td class="nums">13.4</td></tr>
+ <tr><td>Eddy Yusof</td><td>SUI</td><td class="nums">19</td><td class="nums">13.6</td><td class="nums">13.4</td><td class="nums">14.366</td><td class="nums">11.633</td><td class="nums">13.766</td><td class="nums">13.433</td><td class="nums">13.4</td></tr>
+ <tr><td>Ferhat Arican</td><td>TUR</td><td class="nums">20</td><td class="nums">11.7</td><td class="nums">12.933</td><td class="nums">14.683</td><td class="nums">13.525</td><td class="nums">12.9</td><td class="nums">14.266</td><td class="nums">13.3</td></tr>
+ <tr><td>Zachary Clay</td><td>CAN</td><td class="nums">21</td><td class="nums">13.133</td><td class="nums">12.9</td><td class="nums">13.1</td><td class="nums">13.566</td><td class="nums">13.1</td><td class="nums">14.1</td><td class="nums">13.3</td></tr>
+ <tr><td>Tomas Kuzmickas</td><td>LTU</td><td class="nums">22</td><td class="nums">14.266</td><td class="nums">13.333</td><td class=nums>13.633</td><td class="nums">12.866</td><td class="nums">11.7</td><td class="nums">13.866</td><td class="nums">13.3</td></tr>
+ <tr><td>Kevin Cerda</td><td>MEX</td><td class="nums">23</td><td class="nums">13.3</td><td class="nums">12.833</td><td class=nums>12.366</td><td class="nums">12.266</td><td class="nums">12.4</td><td class="nums">13.733</td><td class="nums">12.8</td></tr>
+ <tr><td>Joel Plata Rodriguez</td><td>SP</td><td class="nums">24</td><td class="nums">13.7</td><td class="nums">11.866</td><td class="nums">13.4</td><td class="nums">10.633</td><td class="nums">13.5</td><td class="nums">13.633</td><td class="nums">12.8</td></tr>
+</tbody></table>
+</html>

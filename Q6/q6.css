@@ -1,0 +1,68 @@
+
+.borders {
+    fill: none;
+    stroke: white;
+    stroke-linejoin: round;
+    stroke-width: 1px;
+}
+
+.states {
+    fill: lightblue;
+}
+
+text {
+    stroke: black;
+}
+
+.point {
+    stroke: lightgrey;
+    stroke-width: 1px;
+    fill: #FFBE73;
+    fill-opacity: .8;
+}
+
+.base {
+    fill: white;
+    stroke: #5667CC;
+    stroke-width: 1px;
+    opacity: .9;
+}
+
+.q0-9-blue { fill:rgb(247,251,255); }
+.q1-9-blue { fill:rgb(222,235,247); }
+.q2-9-blue { fill:rgb(198,219,239); }
+.q3-9-blue { fill:rgb(158,202,225); }
+.q4-9-blue { fill:rgb(107,174,214); }
+.q5-9-blue { fill:rgb(66,146,198); }
+.q6-9-blue { fill:rgb(33,113,181); }
+.q7-9-blue { fill:rgb(8,81,156); }
+.q8-9-blue { fill:rgb(8,48,107); }
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
